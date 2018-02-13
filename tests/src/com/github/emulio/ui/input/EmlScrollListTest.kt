@@ -6,160 +6,120 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 
 
-internal class EmlScrollListTest {
+internal class ScrollListTest {
 
     @Test
-    fun Scroll_by_zero_should_stay_at_same_index() {
-        val mockEmlList: EmlList = mock()
-        val emlScroll: EmlScroll = mock()
-        whenever(mockEmlList.size).thenReturn(7)
-        whenever(mockEmlList.selectedIndex).thenReturn(5)
-        whenever(emlScroll.size).thenReturn(3)
-        val emlScrolList = EmlScrollList<String>(emlScroll, mockEmlList)
+    fun scroll_by_zero_should_stay_at_same_index() {
+        val (scrollList, _, mockList) = createScrollList(scrollSize = 3, listSize = 7, selectedIndex = 5)
 
-        emlScrolList.scroll(0)
+        scrollList.scroll(0)
 
-        verify(mockEmlList).selectedIndex = 5
+        verify(mockList).selectedIndex = 5
     }
 
     @Test
-    fun Selecting_beyond_list_start_stops_at_start() {
-        val mockEmlList: EmlList = mock()
-        val emlScroll: EmlScroll = mock()
-        whenever(mockEmlList.size).thenReturn(7)
-        whenever(mockEmlList.selectedIndex).thenReturn(5)
-        whenever(emlScroll.size).thenReturn(3)
-        val emlScrolList = EmlScrollList<String>(emlScroll, mockEmlList)
+    fun selecting_beyond_list_start_stops_at_start() {
+        val (scrollList, _, mockList) = createScrollList(scrollSize = 3, listSize = 7, selectedIndex = 5)
 
-        emlScrolList.scroll(-20)
+        scrollList.scroll(-20)
 
-        verify(mockEmlList).selectedIndex = 0
+        verify(mockList).selectedIndex = 0
     }
 
     @Test
-    fun Selecting_beyond_list_end_stops_at_end() {
-        val mockEmlList: EmlList = mock()
-        val emlScroll: EmlScroll = mock()
-        whenever(mockEmlList.size).thenReturn(7)
-        whenever(mockEmlList.selectedIndex).thenReturn(5)
-        whenever(emlScroll.size).thenReturn(3)
-        val emlScrolList = EmlScrollList<String>(emlScroll, mockEmlList)
+    fun selecting_beyond_list_end_stops_at_end() {
+        val (scrollList, _, mockList) = createScrollList(scrollSize = 3, listSize = 7, selectedIndex = 5)
 
-        emlScrolList.scroll(20)
+        scrollList.scroll(20)
 
-        verify(mockEmlList).selectedIndex = 6
+        verify(mockList).selectedIndex = 6
     }
 
     @Test
-    fun Scrolling_by_less_than_half_the_does_not_move_the_scroll() {
-        val list: EmlList = mock()
-        val mockScroll: EmlScroll = mock()
-        whenever(list.size).thenReturn(7)
-        whenever(list.selectedIndex).thenReturn(1)
-        whenever(mockScroll.size).thenReturn(3)
-        val emlScrolList = EmlScrollList<String>(mockScroll, list)
+    fun scrolling_by_less_than_half_the_does_not_move_the_scroll() {
+        val (scrollList, mockScroll, _) = createScrollList(scrollSize = 3, listSize = 7, selectedIndex = 1)
 
-        emlScrolList.scroll(1)
+        scrollList.scroll(1)
 
         verify(mockScroll).setScrollTop(0)
     }
 
     @Test
-    fun Scrolling_by_more_than_half_the_scroll_size_moves_scroll() {
-        val list: EmlList = mock()
-        val mockScroll: EmlScroll = mock()
-        whenever(list.size).thenReturn(7)
-        whenever(list.selectedIndex).thenReturn(2)
-        whenever(mockScroll.size).thenReturn(3)
+    fun scrolling_by_more_than_half_the_scroll_size_moves_scroll() {
+        val (scrollList, mockScroll, _) = createScrollList(scrollSize = 3, listSize = 7, selectedIndex = 2)
 
-        val emlScrolList = EmlScrollList<String>(mockScroll, list)
-        emlScrolList.scroll(2)
+        scrollList.scroll(2)
 
         verify(mockScroll).setScrollTop(1)
     }
 
     @Test
-    fun Scrolling_to_the_middle_moves_the_scroll() {
-        val list: EmlList = mock()
-        val mockScroll: EmlScroll = mock()
-        whenever(list.size).thenReturn(7)
-        whenever(list.selectedIndex).thenReturn(4)
-        whenever(mockScroll.size).thenReturn(3)
+    fun scrolling_to_the_middle_moves_the_scroll() {
+        val (scrollList, mockScroll, _) = createScrollList(scrollSize = 3, listSize = 7, selectedIndex = 4)
 
-        val emlScrolList = EmlScrollList<String>(mockScroll, list)
-        emlScrolList.scroll(4)
+        scrollList.scroll(4)
 
         verify(mockScroll).setScrollTop(3)
     }
 
     @Test
-    fun Scrolling_to_the_end_stops_the_scroll_at_the_end() {
-        val list: EmlList = mock()
-        val mockScroll: EmlScroll = mock()
-        whenever(list.size).thenReturn(7)
-        whenever(list.selectedIndex).thenReturn(7)
-        whenever(mockScroll.size).thenReturn(3)
+    fun scrolling_to_the_end_stops_the_scroll_at_the_end() {
+        val (scrollList, mockScroll, _) = createScrollList(scrollSize = 3, listSize = 7, selectedIndex = 7)
 
-        val emlScrolList = EmlScrollList<String>(mockScroll, list)
-        emlScrolList.scroll(7)
+        scrollList.scroll(7)
 
         verify(mockScroll).setScrollTop(4)
     }
 
     @Test
-    fun Empty_list_does_not_scroll() {
-        val list: EmlList = mock()
-        val mockScroll: EmlScroll = mock()
-        whenever(list.size).thenReturn(0)
-        whenever(list.selectedIndex).thenReturn(7)
-        whenever(mockScroll.size).thenReturn(3)
+    fun empty_list_does_not_scroll() {
+        val (scrollList, mockScroll, _) = createScrollList(scrollSize = 11, listSize = 10, selectedIndex = 8)
 
-        val emlScrolList = EmlScrollList<String>(mockScroll, list)
-        emlScrolList.scroll(7)
+        scrollList.scroll(7)
 
         verify(mockScroll).setScrollTop(0)
     }
 
     @Test
-    fun Scroll_greater_than_list_does_not_scroll() {
-        val list: EmlList = mock()
-        val mockScroll: EmlScroll = mock()
-        whenever(list.size).thenReturn(10)
-        whenever(list.selectedIndex).thenReturn(8)
-        whenever(mockScroll.size).thenReturn(11)
+    fun scroll_greater_than_list_does_not_scroll() {
+        val (scrollList, mockScroll, _) = createScrollList(scrollSize = 11, listSize = 10, selectedIndex = 7)
 
-        val emlScrolList = EmlScrollList<String>(mockScroll, list)
-        emlScrolList.scroll(7)
+        scrollList.scroll(7)
 
         verify(mockScroll).setScrollTop(0)
     }
 
 
     @Test
-    fun Scrolling_beyond_list_start_stops_at_start() {
-        val list: EmlList = mock()
-        val mockScroll: EmlScroll = mock()
-        whenever(list.size).thenReturn(10)
-        whenever(list.selectedIndex).thenReturn(-20)
-        whenever(mockScroll.size).thenReturn(3)
+    fun scrolling_beyond_list_start_stops_at_start() {
+        val (scrollList, mockScroll, _) = createScrollList(scrollSize = 3, listSize = 10, selectedIndex = -20)
 
-        val emlScrolList = EmlScrollList<String>(mockScroll, list)
-        emlScrolList.scroll(-20)
+        scrollList.scroll(-20)
 
         verify(mockScroll).setScrollTop(0)
     }
 
     @Test
-    fun Scrolling_beyond_list_end_stops_at_end() {
-        val list: EmlList = mock()
-        val mockScroll: EmlScroll = mock()
-        whenever(list.size).thenReturn(10)
-        whenever(list.selectedIndex).thenReturn(8)
-        whenever(mockScroll.size).thenReturn(3)
+    fun scrolling_beyond_list_end_stops_at_end() {
+        val (scrollList, mockScroll, _) = createScrollList(scrollSize = 3, listSize = 10, selectedIndex = 8)
 
-        val emlScrolList = EmlScrollList<String>(mockScroll, list)
-        emlScrolList.scroll(20)
+        scrollList.scroll(20)
 
         verify(mockScroll).setScrollTop(7)
     }
+
+    private fun createScrollList(scrollSize: Int, listSize: Int, selectedIndex: Int): ClassUnderTestAndStubs<String> {
+        val list: EmlList = mock()
+        val scroll: EmlScroll = mock()
+
+        whenever(list.size).thenReturn(listSize)
+        whenever(list.selectedIndex).thenReturn(selectedIndex)
+        whenever(scroll.size).thenReturn(scrollSize)
+
+        val scrollList = ScrollList<String>(scroll, list)
+
+        return ClassUnderTestAndStubs(scrollList, scroll, list)
+    }
+
+    data class ClassUnderTestAndStubs<T>(val scrollList: ScrollList<T>, val scroll: EmlScroll, val list: EmlList)
 }

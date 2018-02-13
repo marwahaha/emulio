@@ -1,6 +1,6 @@
 package com.github.emulio.ui.input
 
-class EmlScrollList<T>(scroll: EmlScroll, itemsList: EmlList)
+class ScrollList<T>(scroll: EmlScroll, itemsList: EmlList)
 {
     private val list = itemsList
     private val scroll = scroll

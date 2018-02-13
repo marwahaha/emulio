@@ -40,7 +40,7 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
     private val selector: Image
     private val root: Table
 
-    private lateinit var platformsScrollList: EmlScrollList<Platform>
+    private lateinit var platformsScrollList: ScrollList<Platform>
     private lateinit var scraperWindow: ScraperWindow
 
     init {
@@ -206,7 +206,7 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
 
         root.add(platformsGDXScroll.scroll)
 
-        platformsScrollList = EmlScrollList(platformsGDXScroll, platformsGDXList)
+        platformsScrollList = ScrollList(platformsGDXScroll, platformsGDXList)
 
         val selectorTexture = createColorTexture(0x878787FF.toInt())
         val lightTexture = createColorTexture(0xADADADFF.toInt())
