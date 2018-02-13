@@ -1,0 +1,9 @@
+<table id="backgroundJobsTable">
+    <scrollPane id="backgroundJobsScroll">
+        <list id="backgroundJobsList">
+            Foo Job
+            Bar Job
+            hunter2
+        </list>
+    </scrollPane>
+</table>

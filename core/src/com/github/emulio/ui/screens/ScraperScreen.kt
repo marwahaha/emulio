@@ -18,6 +18,7 @@ import com.github.emulio.Emulio
 import com.github.emulio.model.AnyInputConfig
 import com.github.emulio.model.InputConfig
 import com.github.emulio.ui.input.*
+import com.github.emulio.ui.page.ScraperBackgroundJobsPage
 import com.github.emulio.utils.translate
 import mu.KotlinLogging
 
@@ -196,6 +197,7 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
 
     }
 
+    private lateinit var backgroundJobsPage: ScraperBackgroundJobsPage
     private fun buildScrapPlatformPage(mainFont: BitmapFont?, emulio: Emulio) {
         root.clearChildren()
 
@@ -242,6 +244,11 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
         scraperWindow.actors.forEach { actor ->
             root.add(actor)
         }
+
+        backgroundJobsPage = ScraperBackgroundJobsPage(stage, emulio.skin)
+
+        root.add(backgroundJobsPage.view.table)
+
         updateScraperWindow()
     }
 
@@ -328,10 +335,12 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
             "Scrap Platform".translate() -> {
                 platformsScroll.show()
                 scraperWindow.show()
+                backgroundJobsPage.hide()
             }
             "Background jobs".translate() -> {
                 platformsScroll.hide()
                 scraperWindow.hide()
+                backgroundJobsPage.show()
             }
         }
     }
@@ -381,6 +390,7 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
     override fun onUpButton(input: InputConfig) {
         updateHelp(input)
         platformsScrollList.scroll(-1)
+        backgroundJobsPage.scrollList.scroll(-1)
 
         updateScraperWindow()
     }
@@ -388,6 +398,7 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
     override fun onDownButton(input: InputConfig) {
         updateHelp(input)
         platformsScrollList.scroll(1)
+        backgroundJobsPage.scrollList.scroll(1)
 
         updateScraperWindow()
     }
