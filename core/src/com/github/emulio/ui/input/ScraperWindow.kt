@@ -33,6 +33,14 @@ class ScraperWindow(stage: Stage, skin: Skin) {
 
         actors = parser.createView(view, template)
     }
+
+    fun show() {
+        view.window.color.a = 1F
+    }
+
+    fun hide() {
+        view.window.color.a = 0F
+    }
 }
 
 class ScraperView(stage: Stage): AbstractLmlView(stage) {

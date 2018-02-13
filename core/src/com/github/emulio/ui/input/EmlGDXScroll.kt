@@ -19,4 +19,12 @@ class EmlGDXScroll(listView: com.badlogic.gdx.scenes.scene2d.ui.List<*>): Scroll
     override fun setScrollTop(top: Int){
         scroll.scrollY = top * list.itemHeight
     }
+
+    fun show() {
+        scroll.color.a = 1.0F
+    }
+
+    fun hide () {
+        scroll.color.a = 0F
+    }
 }

@@ -17,7 +17,6 @@ import com.badlogic.gdx.utils.Scaling
 import com.github.emulio.Emulio
 import com.github.emulio.model.AnyInputConfig
 import com.github.emulio.model.InputConfig
-import com.github.emulio.model.Platform
 import com.github.emulio.ui.input.*
 import com.github.emulio.utils.translate
 import mu.KotlinLogging
@@ -42,6 +41,7 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
 
     private lateinit var platformsScrollList: ScrollList
     private lateinit var scraperWindow: ScraperWindow
+    private lateinit var platformsScroll: EmlGDXScroll
 
     init {
         Gdx.input.inputProcessor = inputController
@@ -202,11 +202,11 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
         val platformsGDXList = EmlGDXList(emulio.platforms , mainFont,screenWidth / 2) {
             platform -> platform.name
         }
-        val platformsGDXScroll = EmlGDXScroll(platformsGDXList.listView)
+        platformsScroll = EmlGDXScroll(platformsGDXList.listView)
 
-        root.add(platformsGDXScroll.scroll)
+        root.add(platformsScroll.scroll)
 
-        platformsScrollList = ScrollList(platformsGDXScroll, platformsGDXList)
+        platformsScrollList = ScrollList(platformsScroll, platformsGDXList)
 
         val selectorTexture = createColorTexture(0x878787FF.toInt())
         val lightTexture = createColorTexture(0xADADADFF.toInt())
@@ -324,7 +324,16 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
     }
 
     private fun updateItem(name: String) {
-
+        when (name) {
+            "Scrap Platform".translate() -> {
+                platformsScroll.show()
+                scraperWindow.show()
+            }
+            "Background jobs".translate() -> {
+                platformsScroll.hide()
+                scraperWindow.hide()
+            }
+        }
     }
 
     private fun animateLabel(current: Label, x: Float, next: Label, newText: String) {
