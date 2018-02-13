@@ -1,6 +1,6 @@
 package com.github.emulio.ui.input
 
-class ScrollList<T>(scroll: EmlScroll, itemsList: EmlList)
+class ScrollList(scroll: Scrollable, itemsList: Indexable)
 {
     private val list = itemsList
     private val scroll = scroll
@@ -34,12 +34,12 @@ class ScrollList<T>(scroll: EmlScroll, itemsList: EmlList)
     }
 }
 
-interface EmlList {
+interface Indexable {
     var selectedIndex: Int
     val size: Int
 }
 
-interface EmlScroll {
+interface Scrollable {
     val size: Int
     fun setScrollTop(top: Int)
 }

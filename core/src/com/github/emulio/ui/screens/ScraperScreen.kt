@@ -40,7 +40,7 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
     private val selector: Image
     private val root: Table
 
-    private lateinit var platformsScrollList: ScrollList<Platform>
+    private lateinit var platformsScrollList: ScrollList
     private lateinit var scraperWindow: ScraperWindow
 
     init {

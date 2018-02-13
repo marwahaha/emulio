@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.github.emulio.ui.screens.createColorTexture
 
-class EmlGDXList<T>(list: List<T>, mainFont: BitmapFont?, listWidth: Float, getDescription: (T) -> String) : EmlList {
+class EmlGDXList<T>(list: List<T>, mainFont: BitmapFont?, listWidth: Float, getDescription: (T) -> String) : Indexable {
     private val list = list
 
     val listView = com.badlogic.gdx.scenes.scene2d.ui.List<String>(com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle().apply {

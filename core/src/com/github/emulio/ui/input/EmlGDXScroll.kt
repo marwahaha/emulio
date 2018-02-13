@@ -2,7 +2,7 @@ package com.github.emulio.ui.input
 
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
 
-class EmlGDXScroll(listView: com.badlogic.gdx.scenes.scene2d.ui.List<*>): EmlScroll {
+class EmlGDXScroll(listView: com.badlogic.gdx.scenes.scene2d.ui.List<*>): Scrollable {
     private val list = listView
     val scroll = ScrollPane(listView, ScrollPane.ScrollPaneStyle()).apply {
         setFlickScroll(true)

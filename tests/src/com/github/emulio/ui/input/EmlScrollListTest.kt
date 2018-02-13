@@ -108,18 +108,18 @@ internal class ScrollListTest {
         verify(mockScroll).setScrollTop(7)
     }
 
-    private fun createScrollList(scrollSize: Int, listSize: Int, selectedIndex: Int): ClassUnderTestAndStubs<String> {
-        val list: EmlList = mock()
-        val scroll: EmlScroll = mock()
+    private fun createScrollList(scrollSize: Int, listSize: Int, selectedIndex: Int): ClassUnderTestAndStubs {
+        val list: Indexable = mock()
+        val scroll: Scrollable = mock()
 
         whenever(list.size).thenReturn(listSize)
         whenever(list.selectedIndex).thenReturn(selectedIndex)
         whenever(scroll.size).thenReturn(scrollSize)
 
-        val scrollList = ScrollList<String>(scroll, list)
+        val scrollList = ScrollList(scroll, list)
 
         return ClassUnderTestAndStubs(scrollList, scroll, list)
     }
 
-    data class ClassUnderTestAndStubs<T>(val scrollList: ScrollList<T>, val scroll: EmlScroll, val list: EmlList)
+    data class ClassUnderTestAndStubs(val scrollList: ScrollList, val scroll: Scrollable, val list: Indexable)
 }
