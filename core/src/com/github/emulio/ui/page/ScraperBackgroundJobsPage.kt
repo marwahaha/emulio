@@ -9,10 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.List
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.github.czyzby.lml.annotation.LmlActor
 import com.github.czyzby.lml.parser.impl.AbstractLmlView
-import com.github.czyzby.lml.vis.util.VisLml
 import com.github.emulio.ui.input.*
 import com.github.emulio.ui.screens.createColorTexture
-import com.kotcrab.vis.ui.VisUI
 
 class ScraperBackgroundJobsPage(stage: Stage, skin: Skin):  AbstractLmlView(stage) {
     @LmlActor("backgroundJobsTable") lateinit var table: Table
@@ -22,11 +20,7 @@ class ScraperBackgroundJobsPage(stage: Stage, skin: Skin):  AbstractLmlView(stag
     val scrollList: ScrollList
 
     init {
-        if(!VisUI.isLoaded()){
-            VisUI.load()
-        }
-
-        val parser = VisLml.parser().skin(skin).build()
+        val parser = getLMLParser(skin)
         val template = Gdx.files.internal("templates/ScraperBackgroundJobsPage.lml")
 
         parser.createView(this, template)
@@ -34,6 +28,15 @@ class ScraperBackgroundJobsPage(stage: Stage, skin: Skin):  AbstractLmlView(stag
         val scrollWrapper = ScrollWrapper(list, scroll)
         val listWrapper = ListWrapper(list)
         scrollList = ScrollList(scrollWrapper, listWrapper)
+
+        scroll.apply {
+            setFlickScroll(true)
+            setScrollBarPositions(false, true)
+            setScrollingDisabled(true, false)
+            setSmoothScrolling(true)
+
+            isTransform = true
+        }
 
         list.style.apply {
             font= skin.getFont("mainFont")

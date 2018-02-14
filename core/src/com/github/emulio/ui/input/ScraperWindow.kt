@@ -9,10 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.List
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.github.czyzby.lml.annotation.LmlActor
 import com.github.czyzby.lml.parser.impl.AbstractLmlView
-import com.github.czyzby.lml.vis.util.VisLml
 import com.github.emulio.model.theme.Theme
 import com.github.emulio.ui.screens.createColorTexture
-import com.kotcrab.vis.ui.VisUI
 import com.kotcrab.vis.ui.widget.Separator
 
 class ScraperWindow(stage: Stage, skin: Skin): AbstractLmlView(stage) {
@@ -25,17 +23,11 @@ class ScraperWindow(stage: Stage, skin: Skin): AbstractLmlView(stage) {
 
     val scrollList: ScrollList
     init {
-        if(!VisUI.isLoaded()){
-            VisUI.load()
-        }
-
-        val parser = VisLml.parser().skin(skin).build()
+        val parser = getLMLParser(skin)
 
         val template = Gdx.files.internal("templates/ScraperWindow.lml")
         parser.createView(this, template)
-
-        separator.color.a = 0F
-
+        
         val scrollWrapper = ScrollWrapper(list, scroll)
         val listWrapper = ListWrapper(list)
         scrollList = ScrollList(scrollWrapper, listWrapper)

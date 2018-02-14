@@ -3,7 +3,7 @@ window {
 }
 
 container {
-    width: 670;
+    width: 705;
     height: 400;
 }
 
@@ -13,4 +13,9 @@ image {
 
 separator {
     pad: 2;
+    transparent: true;
+}
+
+table {
+    defaultGrowX: true;
 }

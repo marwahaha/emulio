@@ -185,7 +185,8 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
         }
         stage.addActor(imgNext)
 
-        root.left().top().pad(20f)
+//        root.left().top().pad(20f)
+        root.left().right().top().bottom().pad(0F)
 
         selector = Image(createColorTexture(0x878787FF.toInt()))
         selector.color.a = 0f
@@ -233,7 +234,7 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
 //        platformDetail.background = TextureRegionDrawable(TextureRegion(selectorTexture))
 
         scraperWindow = ScraperWindow(stage,emulio.skin)
-        scraperWindow.list.apply {
+        scraperWindow.list.apply{
             val descriptionsArray = emulio.platforms.map{p -> p.name}.toTypedArray()
             setItems(com.badlogic.gdx.utils.Array(descriptionsArray))
 
@@ -244,6 +245,11 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
         root.add(scraperWindow.table)
 
         backgroundJobsPage = ScraperBackgroundJobsPage(stage, emulio.skin)
+        backgroundJobsPage.list.apply {
+            width = screenWidth / 2
+            height = 100f
+            selectedIndex = 0
+        }
 
         updateScraperWindow()
     }
@@ -329,16 +335,12 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
     private fun updateItem(name: String) {
         when (name) {
             "Scrap Platform".translate() -> {
-//                scraperWindow.show()
-//                backgroundJobsPage.hide()
                 root.removeActor(backgroundJobsPage.table)
                 root.add(scraperWindow.table)
             }
             "Background jobs".translate() -> {
                 root.removeActor(scraperWindow.table)
                 root.add( backgroundJobsPage.table)
-//                scraperWindow.hide()
-//                backgroundJobsPage.show()
             }
         }
     }
