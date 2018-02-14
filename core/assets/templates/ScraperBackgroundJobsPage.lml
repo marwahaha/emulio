@@ -1,3 +1,4 @@
+<:importStyleSheet>templates/ScraperBackgroundJobsPage.lss</:importStyleSheet>
 <table id="backgroundJobsTable">
     <scrollPane id="backgroundJobsScroll">
         <list id="backgroundJobsList">

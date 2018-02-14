@@ -40,9 +40,8 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
     private val selector: Image
     private val root: Table
 
-    private lateinit var platformsScrollList: ScrollList
     private lateinit var scraperWindow: ScraperWindow
-    private lateinit var platformsScroll: EmlGDXScroll
+    private lateinit var backgroundJobsPage: ScraperBackgroundJobsPage
 
     init {
         Gdx.input.inputProcessor = inputController
@@ -54,6 +53,8 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
             size = 36
             color = Color.WHITE
         })
+
+        emulio.skin.add("mainFont", mainFont, BitmapFont::class.java)
 
         logger.debug { "initializing ScraperScreen" }
 
@@ -194,21 +195,12 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
         buildScrapPlatformPage(mainFont, emulio)
 
         stage.addActor(root)
-
     }
 
-    private lateinit var backgroundJobsPage: ScraperBackgroundJobsPage
+
     private fun buildScrapPlatformPage(mainFont: BitmapFont?, emulio: Emulio) {
         root.clearChildren()
 
-        val platformsGDXList = EmlGDXList(emulio.platforms , mainFont,screenWidth / 2) {
-            platform -> platform.name
-        }
-        platformsScroll = EmlGDXScroll(platformsGDXList.listView)
-
-        root.add(platformsScroll.scroll)
-
-        platformsScrollList = ScrollList(platformsScroll, platformsGDXList)
 
         val selectorTexture = createColorTexture(0x878787FF.toInt())
         val lightTexture = createColorTexture(0xADADADFF.toInt())
@@ -241,20 +233,24 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
 //        platformDetail.background = TextureRegionDrawable(TextureRegion(selectorTexture))
 
         scraperWindow = ScraperWindow(stage,emulio.skin)
-        scraperWindow.actors.forEach { actor ->
-            root.add(actor)
+        scraperWindow.list.apply {
+            val descriptionsArray = emulio.platforms.map{p -> p.name}.toTypedArray()
+            setItems(com.badlogic.gdx.utils.Array(descriptionsArray))
+
+            width = screenWidth / 2
+            height = 100f
+            selectedIndex = 0
         }
+        root.add(scraperWindow.table)
 
         backgroundJobsPage = ScraperBackgroundJobsPage(stage, emulio.skin)
-
-        root.add(backgroundJobsPage.view.table)
 
         updateScraperWindow()
     }
 
     private fun updateScraperWindow() {
-        val platform = emulio.platforms[platformsScrollList.selectedIndex]
-        scraperWindow.view.updatePlatformTheme(emulio.theme[platform]!!)
+        val platform = emulio.platforms[scraperWindow.scrollList.selectedIndex]
+        scraperWindow.updatePlatformTheme(emulio.theme[platform]!!)
     }
 
     private fun obtainNextIndex(currentIndex: Int): Int {
@@ -333,14 +329,16 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
     private fun updateItem(name: String) {
         when (name) {
             "Scrap Platform".translate() -> {
-                platformsScroll.show()
-                scraperWindow.show()
-                backgroundJobsPage.hide()
+//                scraperWindow.show()
+//                backgroundJobsPage.hide()
+                root.removeActor(backgroundJobsPage.table)
+                root.add(scraperWindow.table)
             }
             "Background jobs".translate() -> {
-                platformsScroll.hide()
-                scraperWindow.hide()
-                backgroundJobsPage.show()
+                root.removeActor(scraperWindow.table)
+                root.add( backgroundJobsPage.table)
+//                scraperWindow.hide()
+//                backgroundJobsPage.show()
             }
         }
     }
@@ -389,7 +387,7 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
 
     override fun onUpButton(input: InputConfig) {
         updateHelp(input)
-        platformsScrollList.scroll(-1)
+        scraperWindow.scrollList.scroll(-1)
         backgroundJobsPage.scrollList.scroll(-1)
 
         updateScraperWindow()
@@ -397,7 +395,7 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
 
     override fun onDownButton(input: InputConfig) {
         updateHelp(input)
-        platformsScrollList.scroll(1)
+        scraperWindow.scrollList.scroll(1)
         backgroundJobsPage.scrollList.scroll(1)
 
         updateScraperWindow()

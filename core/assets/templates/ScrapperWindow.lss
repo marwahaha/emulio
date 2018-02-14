@@ -10,3 +10,7 @@ container {
 image {
     scaling: fit;
 }
+
+separator {
+    pad: 2;
+}
