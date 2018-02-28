@@ -1,7 +1,7 @@
 <:importStyleSheet>templates/ScraperBackgroundJobsPage.lss</:importStyleSheet>
-<table id="backgroundJobsTable">
+<table width="600" id="backgroundJobsTable">
     <scrollPane id="backgroundJobsScroll">
-        <list id="backgroundJobsList">
+        <list id="backgroundJobsList" selected="0">
             Foo Job
             Bar Job
             hunter2

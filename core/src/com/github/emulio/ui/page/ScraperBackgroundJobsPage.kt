@@ -20,7 +20,7 @@ class ScraperBackgroundJobsPage(stage: Stage, skin: Skin):  AbstractLmlView(stag
     val scrollList: ScrollList
 
     init {
-        val parser = getLMLParser(skin)
+        val parser = getLMLParserBuilder(skin).build()
         val template = Gdx.files.internal("templates/ScraperBackgroundJobsPage.lml")
 
         parser.createView(this, template)
@@ -39,7 +39,7 @@ class ScraperBackgroundJobsPage(stage: Stage, skin: Skin):  AbstractLmlView(stag
         }
 
         list.style.apply {
-            font= skin.getFont("mainFont")
+            //font= skin.getFont("mainFont")
             fontColorSelected = Color.WHITE
             fontColorUnselected = Color(0x878787FF.toInt())
             val selectorTexture = createColorTexture(0x878787FF.toInt())

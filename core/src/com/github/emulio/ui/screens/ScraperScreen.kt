@@ -185,9 +185,6 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
         }
         stage.addActor(imgNext)
 
-//        root.left().top().pad(20f)
-        root.left().right().top().bottom().pad(0F)
-
         selector = Image(createColorTexture(0x878787FF.toInt()))
         selector.color.a = 0f
 
@@ -233,25 +230,17 @@ class ScraperScreen(emulio: Emulio, private val backCallback: () -> EmulioScreen
 
 //        platformDetail.background = TextureRegionDrawable(TextureRegion(selectorTexture))
 
-        scraperWindow = ScraperWindow(stage,emulio.skin)
-        scraperWindow.list.apply{
-            val descriptionsArray = emulio.platforms.map{p -> p.name}.toTypedArray()
-            setItems(com.badlogic.gdx.utils.Array(descriptionsArray))
+        root.left().top().pad(0f)
 
-            width = screenWidth / 2
-            height = 100f
-            selectedIndex = 0
-        }
+        scraperWindow = ScraperWindow(stage,emulio)
+
         root.add(scraperWindow.table)
 
         backgroundJobsPage = ScraperBackgroundJobsPage(stage, emulio.skin)
-        backgroundJobsPage.list.apply {
-            width = screenWidth / 2
-            height = 100f
-            selectedIndex = 0
-        }
 
         updateScraperWindow()
+
+//        root.setDebug(true, true)
     }
 
     private fun updateScraperWindow() {

@@ -16,6 +16,10 @@ separator {
     transparent: true;
 }
 
-table {
-    defaultGrowX: true;
+list {
+    font: mainFont;
+}
+
+scrollPane {
+    style: list;
 }

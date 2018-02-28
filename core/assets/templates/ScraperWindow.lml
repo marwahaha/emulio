@@ -1,9 +1,13 @@
 <:importStyleSheet>templates/ScrapperWindow.lss</:importStyleSheet>
 <table id="scraperTable">
     <scrollPane id="scraperScroll">
-        <list id="scraperList"></list>
+        <list id="scraperList" selected="0">
+            <:for itemName="{platformsNames}">
+                {itemName}
+            </:for>
+        </list>
     </scrollPane>
-    <separator id="scraperSeparator"></separator>
+    <separator></separator>
     <window id="scrapperWindow">
         <container>
             <image id="scraperPlatformImage"/>
